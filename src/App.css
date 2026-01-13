@@ -367,30 +367,28 @@ body {
 .menu-item:hover .item-name {
   text-shadow: 0 0 8px #ffb000;
 }
-/* Info Grid Layout */
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 25px;
+/* Info Section - Full Width */
+.info-section-wide {
   margin: 30px 0;
   position: relative;
   z-index: 1;
 }
 
-.info-section {
-  display: flex;
-  flex-direction: column;
-}
-
-.info-frame {
+.info-frame-wide {
   border: 2px solid #cc8800;
-  padding: 20px;
+  padding: 30px;
   background: rgba(30, 20, 0, 0.3);
   position: relative;
-  flex: 1;
 }
 
-.info-frame h2 {
+.info-columns {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.info-column h2 {
   color: #ffb000;
   text-shadow: 0 0 5px #ffb000;
   margin-bottom: 20px;
@@ -400,7 +398,7 @@ body {
   position: relative;
 }
 
-.info-frame h2::before {
+.info-column h2::before {
   content: "";
   position: absolute;
   top: 0;
@@ -415,6 +413,15 @@ body {
   pointer-events: none;
   animation: scanline 8s linear infinite;
   z-index: 1;
+}
+
+.info-divider {
+  color: #cc8800;
+  font-size: 2em;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  opacity: 0.3;
 }
 
 /* Hours Styles */
@@ -510,7 +517,12 @@ body {
 
 /* Mobile Responsive */
 @media (max-width: 968px) {
-  .info-grid {
+  .info-columns {
     grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .info-divider {
+    display: none;
   }
 }
