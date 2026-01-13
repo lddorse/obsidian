@@ -7,32 +7,10 @@ const InfoSection = ({ hours, location }) => {
         <span className="frame-corners bl">╚</span>
         <span className="frame-corners br">╝</span>
         
-        {/* Location Section - Full Width */}
-        <div className="location-section">
-          <h2>║ {location.title} ║</h2>
-          
-          <div className="location-grid">
-            <div className="location-address">
-              <div className="terminal-line">&gt; {location.address}</div>
-              <div className="terminal-line">&gt; {location.city}</div>
-            </div>
-            
-            <div className="location-about">
-              <p>{location.description}</p>
-            </div>
-          </div>
-          
-          <div className="location-directions">
-            <h3>&gt; {location.directions.title}_</h3>
-            <div className="alley-notice">
-              ⚠ {location.directions.note} ⚠
-            </div>
-            <ol className="directions-list">
-              {location.directions.steps.map((step, index) => (
-                <li key={index}>{step}</li>
-              ))}
-            </ol>
-          </div>
+        {/* About Section - Full Width */}
+        <div className="about-section">
+          <h2>║ ABOUT ║</h2>
+          <p>{location.description}</p>
         </div>
         
         {/* Divider */}
@@ -51,6 +29,33 @@ const InfoSection = ({ hours, location }) => {
                 <span className="hours-time">{item.time}</span>
               </div>
             ))}
+          </div>
+        </div>
+        
+        {/* Divider */}
+        <div className="info-horizontal-divider">
+          ═══════════════════════════════════════════════════════════════════
+        </div>
+        
+        {/* Location Section */}
+        <div className="location-section">
+          <h2>║ LOCATION ║</h2>
+          
+          <div className="location-address">
+            <div className="terminal-line">&gt; {location.address}</div>
+            <div className="terminal-line">&gt; {location.city}</div>
+          </div>
+          
+          <div className="location-directions">
+            <h3>&gt; {location.directions.title}_</h3>
+            <div className="alley-notice">
+              ⚠ {location.directions.note} ⚠
+            </div>
+            <ol className="directions-list">
+              {location.directions.steps.map((step, index) => (
+                <li key={index}>{step}</li>
+              ))}
+            </ol>
           </div>
         </div>
       </div>
