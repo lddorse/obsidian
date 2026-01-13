@@ -3,8 +3,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import MenuSection from './components/MenuSection';
 import Modal from './components/Modal';
-import Hours from './components/Hours';
-import LocationInfo from './components/LocationInfo';
+import InfoSection from './components/InfoSection';
 import { menuData } from './data/menuData';
 import { hours, locationInfo } from './data/businessInfo';
 import './App.css';
@@ -28,10 +27,7 @@ function App() {
         ))}
       </div>
       
-      <div className="info-grid">
-        <Hours hours={hours} />
-        <LocationInfo info={locationInfo} />
-      </div>
+      <InfoSection hours={hours} location={locationInfo} />
       
       <Footer />
       
