@@ -367,7 +367,7 @@ body {
 .menu-item:hover .item-name {
   text-shadow: 0 0 8px #ffb000;
 }
-/* Info Section - Full Width */
+/* Info Section - Full Width Stacked */
 .info-section-wide {
   margin: 30px 0;
   position: relative;
@@ -381,24 +381,22 @@ body {
   position: relative;
 }
 
-.info-columns {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 40px;
-  align-items: start;
+/* Location Section - Full Width */
+.location-section {
+  margin-bottom: 30px;
 }
 
-.info-column h2 {
+.location-section h2 {
   color: #ffb000;
   text-shadow: 0 0 5px #ffb000;
-  margin-bottom: 20px;
-  font-size: 1.3em;
+  margin-bottom: 25px;
+  font-size: 1.5em;
   text-align: center;
   letter-spacing: 3px;
   position: relative;
 }
 
-.info-column h2::before {
+.location-section h2::before {
   content: "";
   position: absolute;
   top: 0;
@@ -415,67 +413,28 @@ body {
   z-index: 1;
 }
 
-.info-divider {
-  color: #cc8800;
-  font-size: 2em;
-  align-self: stretch;
-  display: flex;
-  align-items: center;
-  opacity: 0.3;
-}
-
-/* Hours Styles */
-.hours-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.hours-item {
-  display: flex;
-  align-items: center;
-  color: #ffb000;
-  font-size: 0.95em;
-}
-
-.hours-day {
-  min-width: 160px;
-}
-
-.hours-dots {
-  flex: 1;
-  color: #cc8800;
-  opacity: 0.5;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.hours-time {
-  text-align: right;
-  font-weight: bold;
-}
-
-/* Location Styles */
-.location-content {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.location-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 30px;
+  margin-bottom: 25px;
 }
 
 .location-address {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 8px;
 }
 
 .terminal-line {
   color: #ffb000;
-  font-size: 1em;
+  font-size: 1.05em;
 }
 
 .location-about p {
   color: #cc8800;
-  line-height: 1.6;
+  line-height: 1.7;
+  font-size: 1.05em;
 }
 
 .location-directions h3 {
@@ -489,7 +448,7 @@ body {
   background: rgba(255, 176, 0, 0.1);
   border: 2px solid #ff8800;
   color: #ff8800;
-  padding: 10px;
+  padding: 12px;
   text-align: center;
   margin-bottom: 15px;
   font-weight: bold;
@@ -515,14 +474,87 @@ body {
   color: #ffb000;
 }
 
+/* Horizontal Divider */
+.info-horizontal-divider {
+  color: #cc8800;
+  text-align: center;
+  margin: 25px 0;
+  opacity: 0.3;
+  overflow: hidden;
+  font-size: 0.8em;
+}
+
+/* Hours Section - Centered */
+.hours-section {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.hours-section h2 {
+  color: #ffb000;
+  text-shadow: 0 0 5px #ffb000;
+  margin-bottom: 20px;
+  font-size: 1.3em;
+  text-align: center;
+  letter-spacing: 3px;
+  position: relative;
+}
+
+.hours-section h2::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0) 50%, 
+    rgba(0, 0, 0, 0.5) 50%
+  );
+  background-size: 100% 3px;
+  pointer-events: none;
+  animation: scanline 8s linear infinite;
+  z-index: 1;
+}
+
+.hours-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hours-item {
+  display: flex;
+  align-items: center;
+  color: #ffb000;
+  font-size: 0.95em;
+}
+
+.hours-day {
+  min-width: 180px;
+}
+
+.hours-dots {
+  flex: 1;
+  color: #cc8800;
+  opacity: 0.5;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.hours-time {
+  text-align: right;
+  font-weight: bold;
+}
+
 /* Mobile Responsive */
 @media (max-width: 968px) {
-  .info-columns {
+  .location-grid {
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 20px;
   }
   
-  .info-divider {
-    display: none;
+  .hours-section {
+    max-width: 100%;
   }
 }
