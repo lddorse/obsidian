@@ -367,3 +367,150 @@ body {
 .menu-item:hover .item-name {
   text-shadow: 0 0 8px #ffb000;
 }
+/* Info Grid Layout */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  margin: 30px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.info-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-frame {
+  border: 2px solid #cc8800;
+  padding: 20px;
+  background: rgba(30, 20, 0, 0.3);
+  position: relative;
+  flex: 1;
+}
+
+.info-frame h2 {
+  color: #ffb000;
+  text-shadow: 0 0 5px #ffb000;
+  margin-bottom: 20px;
+  font-size: 1.3em;
+  text-align: center;
+  letter-spacing: 3px;
+  position: relative;
+}
+
+.info-frame h2::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0) 50%, 
+    rgba(0, 0, 0, 0.5) 50%
+  );
+  background-size: 100% 3px;
+  pointer-events: none;
+  animation: scanline 8s linear infinite;
+  z-index: 1;
+}
+
+/* Hours Styles */
+.hours-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hours-item {
+  display: flex;
+  align-items: center;
+  color: #ffb000;
+  font-size: 0.95em;
+}
+
+.hours-day {
+  min-width: 160px;
+}
+
+.hours-dots {
+  flex: 1;
+  color: #cc8800;
+  opacity: 0.5;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.hours-time {
+  text-align: right;
+  font-weight: bold;
+}
+
+/* Location Styles */
+.location-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.location-address {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.terminal-line {
+  color: #ffb000;
+  font-size: 1em;
+}
+
+.location-about p {
+  color: #cc8800;
+  line-height: 1.6;
+}
+
+.location-directions h3 {
+  color: #ffb000;
+  font-size: 1.1em;
+  margin-bottom: 15px;
+  letter-spacing: 2px;
+}
+
+.alley-notice {
+  background: rgba(255, 176, 0, 0.1);
+  border: 2px solid #ff8800;
+  color: #ff8800;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.directions-list {
+  color: #cc8800;
+  padding-left: 20px;
+  line-height: 1.8;
+}
+
+.directions-list li {
+  margin-bottom: 8px;
+}
+
+.directions-list li::marker {
+  color: #ffb000;
+}
+
+/* Mobile Responsive */
+@media (max-width: 968px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
