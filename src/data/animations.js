@@ -74,7 +74,8 @@ export const animations = {
                        
                        `
 ],
-    speed: 500
+    speed: 500,
+    stillFrame: 1
   },
   
   cocktail: {
@@ -164,7 +165,8 @@ export const animations = {
                 |
                |_|`
     ],
-    speed: 450
+    speed: 450,
+    stillFrame: 1
   },
   
   beer: {
@@ -282,7 +284,8 @@ export const animations = {
              ╚════╝
                   `
     ],
-    speed: 600
+    speed: 600,
+    stillFrame: 7
   },
   
   snacks: {
@@ -344,6 +347,7 @@ export const animations = {
             └────────┘
                      `
     ],
-    speed: 700
+    speed: 700,
+    stillFrame: 0
   }
 };

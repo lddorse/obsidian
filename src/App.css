@@ -539,3 +539,13 @@ body {
     max-width: 100%;
   }
 }
+
+/* Reduced motion: stop all CSS animation (ASCII art is handled in AnimatedAsciiArt) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
