@@ -1,23 +1,6 @@
 import { useState, useEffect } from 'react';
 import { animations } from '../data/animations';
-
-const reducedMotionQuery = '(prefers-reduced-motion: reduce)';
-
-// Tracks the OS reduced-motion setting, updating live when the user toggles it
-const usePrefersReducedMotion = () => {
-  const [prefersReduced, setPrefersReduced] = useState(
-    () => window.matchMedia(reducedMotionQuery).matches
-  );
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia(reducedMotionQuery);
-    const handleChange = (e) => setPrefersReduced(e.matches);
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
-
-  return prefersReduced;
-};
+import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 
 const AnimatedAsciiArt = ({ animationType }) => {
   const [currentFrame, setCurrentFrame] = useState(0);

@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:status": "node scripts/test-business-status.mjs"
   },
   "keywords": [],
   "author": "",

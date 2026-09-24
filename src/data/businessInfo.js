@@ -1,11 +1,24 @@
+import { formatTime } from '../utils/clock';
+
+// Hours are in the bar's local time, whatever the visitor's time zone
+export const timeZone = 'America/Chicago';
+
+// days: 0 = Sunday ... 6 = Saturday. open/close are "HH:MM" 24h.
+// A close at or before open means closing after midnight, on the next day
+// (Friday 07:00-00:00 closes at 12:00 AM Saturday).
+const schedule = [
+  { day: 'Monday - Thursday', days: [1, 2, 3, 4], open: '07:00', close: '22:00' },
+  { day: 'Friday', days: [5], open: '07:00', close: '00:00' },
+  { day: 'Saturday', days: [6], open: '08:00', close: '00:00' },
+  { day: 'Sunday', days: [0], open: '08:00', close: '20:00' }
+];
+
 export const hours = {
   title: 'HOURS',
-  schedule: [
-    { day: 'Monday - Thursday', time: '7:00 AM - 10:00 PM' },
-    { day: 'Friday', time: '7:00 AM - 12:00 AM' },
-    { day: 'Saturday', time: '8:00 AM - 12:00 AM' },
-    { day: 'Sunday', time: '8:00 AM - 8:00 PM' }
-  ]
+  schedule: schedule.map((row) => ({
+    ...row,
+    time: `${formatTime(row.open)} - ${formatTime(row.close)}`
+  }))
 };
 
 export const locationInfo = {
