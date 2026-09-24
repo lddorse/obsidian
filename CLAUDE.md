@@ -17,7 +17,7 @@ Single-page React 19 + Vite site for "Obsidian", a coffee roastery / cocktail ba
 Content is data-driven: nearly all copy lives in `src/data/`, and components are thin renderers.
 
 - `src/data/menuData.js` — array of menu sections (`id`, `title`, `animation`, `items[]` with `name`, `price`, `description`, `notes`). `App.jsx` maps each section to a `MenuSection`. Adding a section here adds a column to the menu grid.
-- `src/data/animations.js` — ASCII animations keyed by name (`coffee`, `cocktail`, `beer`, `snacks`), each `{ frames: [...template strings], speed: ms, stillFrame: index }`. `stillFrame` is the frame shown when `prefers-reduced-motion` is on — pick the most representative one (e.g. the full beer glass), not blindly frame 0. A menu section's `animation` field must match one of these keys or `AnimatedAsciiArt` will crash. Frames are raw template literals: whitespace is significant, backslashes must be escaped (`\\`), and all frames in one animation must be the same size (see Design rules).
+- `src/data/animations.js` — ASCII animations keyed by name (`coffee`, `cocktail`, `beer`, `snacks`), each `{ frames: [...template strings], speed: ms, stillFrame: index }`. `stillFrame` is the frame shown when `prefers-reduced-motion` is on — pick the most representative one (e.g. the full beer glass), not blindly frame 0. A menu section's `animation` field must match one of these keys or `AnimatedAsciiArt` will crash. Frames are raw template literals: whitespace is significant, and backslashes must be escaped (`\\`). The exported `animations` goes through `normalizeFrames`, which strips any blank rows or columns shared by every frame and pads each frame with spaces to the set's max line count and width. Sizes are made uniform in code, so don't hand-pad frames or offset `.animation-wrapper` in CSS to center the art.
 - `src/data/businessInfo.js` — `hours` and `locationInfo`, rendered by `InfoSection`.
 
 Click flow: `MenuSection` item click → `App`'s `selectedItem` state → `Modal` (closes on Esc, overlay click, or ✕).
@@ -31,7 +31,7 @@ All styles are in one global stylesheet, `src/App.css` (no CSS modules). Box fra
 ## Design rules
 
 - Amber CRT palette: `#ffb000` primary, `#cc8800` accents, `#0a0a0a` background.
-- Every frame in an ASCII animation set must have exactly the same line count and width, or the layout jumps.
+- Every frame in an ASCII animation set must have exactly the same line count and width, or the layout jumps (`normalizeFrames` in `animations.js` enforces this).
 - The scanline effect goes only on h1/h2 headings, never on containers (on containers it made the whole page twitch).
 - Use box-drawing characters (`╔ ╗ ╚ ╝ ║ ═`) for frames and headings.
 - Inside the site, use a monospace terminal style. Neon (the Monoton font) is only for the entry gate/logo.
