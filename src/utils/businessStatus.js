@@ -4,6 +4,7 @@ import { toMinutes, formatMinutes } from './clock';
 const DAY = 24 * 60;
 const WEEK = 7 * DAY;
 const WEEKDAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+const COMPACT = { compact: true };
 
 // Minutes since Sunday 00:00 in the given time zone
 const minuteOfWeek = (date, timeZone) => {
@@ -36,8 +37,8 @@ const weeklyIntervals = (schedule) =>
 
 /**
  * Whether the bar is open at `now`, in the bar's time zone.
- * Returns { isOpen, closesAt, opensAt }:
- *   closesAt: "12:00 AM" (when open)
+ * Returns { isOpen, closesAt, opensAt }, with times in compact form:
+ *   closesAt: "12 AM" (when open)
  *   opensAt:  { daysAhead, weekday, time } for the next opening (when closed)
  */
 export const getBusinessStatus = (
@@ -52,7 +53,7 @@ export const getBusinessStatus = (
     [current, current + WEEK].some((t) => t >= start && t < end)
   );
   if (openInterval) {
-    return { isOpen: true, closesAt: formatMinutes(openInterval.end % DAY), opensAt: null };
+    return { isOpen: true, closesAt: formatMinutes(openInterval.end % DAY, COMPACT), opensAt: null };
   }
 
   const nextStart = Math.min(
@@ -64,12 +65,12 @@ export const getBusinessStatus = (
     opensAt: {
       daysAhead: Math.floor(nextStart / DAY) - Math.floor(current / DAY),
       weekday: WEEKDAYS[Math.floor(nextStart / DAY) % 7],
-      time: formatMinutes(nextStart % DAY)
+      time: formatMinutes(nextStart % DAY, COMPACT)
     }
   };
 };
 
-// "7:00 AM" today, "TOMORROW 8:00 AM", otherwise "MON 7:00 AM"
+// "7 AM" today, "TOMORROW 8 AM", otherwise "MON 7 AM"
 export const formatOpensAt = ({ daysAhead, weekday, time }) => {
   if (daysAhead === 0) return time;
   if (daysAhead === 1) return `TOMORROW ${time}`;

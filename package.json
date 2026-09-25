@@ -4,9 +4,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:lan": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
-    "test:status": "node scripts/test-business-status.mjs"
+    "test:status": "node scripts/test-business-status.mjs",
+    "test:scroll": "node tests/e2e/scroll.mjs",
+    "test:gate": "node tests/e2e/gate.mjs",
+    "test:flight": "node tests/e2e/flight.mjs",
+    "test": "npm run test:status && npm run test:gate && npm run test:flight && npm run test:scroll"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +23,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.1.2",
+    "playwright": "^1.63.0",
     "vite": "^7.3.1"
   }
 }

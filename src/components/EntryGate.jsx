@@ -1,27 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
-import { getBusinessStatus, formatOpensAt } from '../utils/businessStatus';
+import { formatOpensAt } from '../utils/businessStatus';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
+import { useScrollLock } from '../hooks/useScrollLock';
+import NeonSign from './NeonSign';
 
-const SIGN = 'OBSIDIAN';
-const EXIT_MS = 400;
+const FADE_MS = 400;
+const FLIGHT_MS = 500;
 const FONT_TIMEOUT_MS = 1000;
-
-// Recomputes open/closed at the start of every minute
-const useBusinessStatus = () => {
-  const [status, setStatus] = useState(() => getBusinessStatus());
-
-  useEffect(() => {
-    let timer;
-    const tick = () => {
-      setStatus(getBusinessStatus());
-      timer = setTimeout(tick, 60000 - (Date.now() % 60000));
-    };
-    timer = setTimeout(tick, 60000 - (Date.now() % 60000));
-    return () => clearTimeout(timer);
-  }, []);
-
-  return status;
-};
 
 // Wait for Monoton so letters don't light up in the fallback font, but not forever
 const useFontReady = (font) => {
@@ -42,27 +27,49 @@ const useFontReady = (font) => {
   return ready;
 };
 
-const EntryGate = ({ onClose }) => {
-  const status = useBusinessStatus();
+// On dismiss the sign flies into the hero's sign (targetRef) while the rest of
+// the gate fades. If the hero sign isn't fully on screen, the gate just fades.
+const EntryGate = ({ status, onClose, targetRef }) => {
   const prefersReducedMotion = usePrefersReducedMotion();
   const fontReady = useFontReady('1em Monoton');
-  const [leaving, setLeaving] = useState(false);
+  const [exit, setExit] = useState(null); // null | 'fade' | 'fly'
   const gateRef = useRef(null);
+  const signRef = useRef(null);
+
+  useScrollLock(true);
 
   const enter = () => {
-    if (leaving) return;
+    if (exit) return;
     if (prefersReducedMotion) {
       onClose();
-    } else {
-      setLeaving(true);
+      return;
     }
+
+    const from = signRef.current?.getBoundingClientRect();
+    const to = targetRef?.current?.getBoundingClientRect();
+    const onScreen = from && to && to.width > 0 && to.top >= 0 && to.bottom <= window.innerHeight;
+    if (!onScreen) {
+      setExit('fade');
+      return;
+    }
+
+    const dx = to.left + to.width / 2 - (from.left + from.width / 2);
+    const dy = to.top + to.height / 2 - (from.top + from.height / 2);
+    const scale = to.width / from.width;
+    setExit('fly');
+    signRef.current
+      .animate(
+        [{ transform: 'none' }, { transform: `translate(${dx}px, ${dy}px) scale(${scale})` }],
+        { duration: FLIGHT_MS, easing: 'cubic-bezier(0.3, 0, 0.2, 1)', fill: 'forwards' }
+      )
+      .finished.then(onClose, onClose);
   };
 
   useEffect(() => {
-    if (!leaving) return;
-    const timer = setTimeout(onClose, EXIT_MS);
+    if (exit !== 'fade') return;
+    const timer = setTimeout(onClose, FADE_MS);
     return () => clearTimeout(timer);
-  }, [leaving, onClose]);
+  }, [exit, onClose]);
 
   useEffect(() => {
     const handleKey = (e) => {
@@ -75,42 +82,29 @@ const EntryGate = ({ onClose }) => {
     return () => window.removeEventListener('keydown', handleKey);
   });
 
-  // Lock page scroll while the gate is up. Focus goes to the dialog, not the
-  // button, so the button stays faint until someone tabs to it.
+  // Focus goes to the dialog, not the button, so the button stays faint until
+  // someone tabs to it
   useEffect(() => {
-    const { overflow } = document.body.style;
-    document.body.style.overflow = 'hidden';
     gateRef.current?.focus();
-    return () => {
-      document.body.style.overflow = overflow;
-    };
   }, []);
 
-  const signClass = [
-    'gate-sign',
-    status.isOpen ? 'is-lit' : 'is-unlit',
-    (fontReady || prefersReducedMotion) && 'is-ready'
-  ]
-    .filter(Boolean)
-    .join(' ');
+  const exitClass = { fade: ' is-leaving', fly: ' is-flying' }[exit] ?? '';
 
   return (
     <div
       ref={gateRef}
       tabIndex={-1}
-      className={`entry-gate${leaving ? ' is-leaving' : ''}`}
+      className={`entry-gate${exitClass}`}
       role="dialog"
       aria-modal="true"
       aria-label="Welcome to Obsidian"
       onClick={enter}
     >
-      <h1 className={signClass} aria-label="Obsidian">
-        {[...SIGN].map((letter, i) => (
-          <span key={i} className="gate-letter" style={{ '--i': i }} aria-hidden="true">
-            {letter}
-          </span>
-        ))}
-      </h1>
+      <NeonSign
+        ref={signRef}
+        lit={status.isOpen}
+        className={`gate-sign${fontReady || prefersReducedMotion || exit ? ' is-ready' : ''}`}
+      />
 
       <p className={`gate-status ${status.isOpen ? 'is-open' : 'is-closed'}`}>
         {status.isOpen ? 'OPEN' : `CLOSED // OPENS ${formatOpensAt(status.opensAt)}`}{' '}

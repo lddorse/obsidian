@@ -1,30 +1,29 @@
 import AnimatedAsciiArt from './AnimatedAsciiArt';
+import Frame from './Frame';
 
-const MenuSection = ({ title, animation, items, onItemClick }) => {
+const MenuSection = ({ id, title, animation, items, onItemClick }) => {
   return (
-    <div className="menu-column">
-      <AnimatedAsciiArt animationType={animation} />
-      
-      <div className="menu-frame">
-        <span className="frame-corners tl">╔</span>
-        <span className="frame-corners tr">╗</span>
-        <span className="frame-corners bl">╚</span>
-        <span className="frame-corners br">╝</span>
-        
-        <h2>║ {title} ║</h2>
-        
-        {items.map((item, index) => (
-          <div 
-            key={index} 
-            className="menu-item"
-            onClick={() => onItemClick(item)}
-          >
-            <span className="item-name">{item.name}</span>
-            <span className="price">{item.price}</span>
-          </div>
-        ))}
+    <section id={id} className="snap-section" tabIndex={-1} aria-labelledby={`${id}-heading`}>
+      <div className="menu-column">
+        <AnimatedAsciiArt animationType={animation} />
+
+        <Frame className="menu-frame">
+          <h2 id={`${id}-heading`}>║ {title} ║</h2>
+
+          {items.map((item) => (
+            <button
+              key={item.name}
+              type="button"
+              className="menu-item"
+              onClick={() => onItemClick(item)}
+            >
+              <span className="item-name">{item.name}</span>
+              <span className="price">{item.price}</span>
+            </button>
+          ))}
+        </Frame>
       </div>
-    </div>
+    </section>
   );
 };
 
